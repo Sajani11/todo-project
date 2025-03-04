@@ -70,7 +70,7 @@ export default {
   methods: {
     async fetchTodos() {
       try {
-        const response = await axios.get("http://127.0.0.1:8000/todos/");
+        const response = await axios.get("http://localhost:8000/todos/");
         this.todos = response.data;
       } catch (error) {
         console.error(error);

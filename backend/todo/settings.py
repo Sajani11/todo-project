@@ -13,7 +13,7 @@ SECRET_KEY = 'django-insecure-%8ec%i^c!cptd52bok8qcoc&$=ucazz4mec75q4s87@h0%4fis
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost"]
 
 # Application definition
 
@@ -41,7 +41,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8081",  # Vue.js frontend
+    "http://localhost:8080",  # Vue.js frontend
+    "localhost"
 ]
 
 ROOT_URLCONF = 'todo.urls'
