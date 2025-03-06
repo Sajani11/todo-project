@@ -13,37 +13,50 @@ SECRET_KEY = 'django-insecure-%8ec%i^c!cptd52bok8qcoc&$=ucazz4mec75q4s87@h0%4fis
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost"
+]
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',  # Make sure rest_framework is included
-    'todo',  # Your app
-    'corsheaders',  # Add corsheaders here
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "todo",
+    "corsheaders",  # ✅ Make sure corsheaders is included
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # Add CorsMiddleware here
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",  # ✅ Move this ABOVE CommonMiddleware
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# Allow requests from frontend (Make sure Vue runs on port 8082)
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",  # Vue.js frontend
-    "localhost"
+    "http://localhost:8082",
 ]
+
+# Allow credentials (important if using authentication)
+CORS_ALLOW_CREDENTIALS = True
+
+# Allow all headers & methods
+CORS_ALLOW_ALL_HEADERS = True
+CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+
+
+
 
 ROOT_URLCONF = 'todo.urls'
 

@@ -31,12 +31,23 @@
 </template>
 
 <script>
-export default {
+import { defineComponent, toRefs } from 'vue';
+
+export default defineComponent({
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  setup(props) {
+    // Using Composition API to access props
+    const { msg } = toRefs(props);
+    
+    // Return the variables to be used in the template
+    return {
+      msg,
+    };
   }
-}
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
