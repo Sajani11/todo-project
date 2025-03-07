@@ -1,25 +1,15 @@
 from pathlib import Path
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%8ec%i^c!cptd52bok8qcoc&$=ucazz4mec75q4s87@h0%4fis'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# These are the hosts we allow to access our app, local dev setup for now
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost"
 ]
 
-# Application definition
-
+# List of all the installed apps, including Django default apps and our custom ones
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -27,15 +17,16 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "rest_framework",
-    "todo",
-    "corsheaders",  # ✅ Make sure corsheaders is included
+    "rest_framework",  # This is for our API setup
+    "corsheaders",  # For handling CORS
+    "todo",  # This is our app for managing to-dos
 ]
 
+# Middleware stack, includes CORS for frontend-backend communication
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",  # ✅ Move this ABOVE CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",  # Make sure this is above CommonMiddleware
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -43,23 +34,22 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-# Allow requests from frontend (Make sure Vue runs on port 8082)
+# Frontend will run on port 8084, so we allow that in CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8082",
+    "http://localhost:8084",
 ]
 
-# Allow credentials (important if using authentication)
+# Allow credentials (important if we're using authentication)
 CORS_ALLOW_CREDENTIALS = True
 
-# Allow all headers & methods
+# Let all headers and methods be accepted by the API
 CORS_ALLOW_ALL_HEADERS = True
 CORS_ALLOW_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
 
-
-
-
+# URL configuration for our app
 ROOT_URLCONF = 'todo.urls'
 
+# Django templates setup, not really used here but leaving for potential future use
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -78,10 +68,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todo.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+# Database configuration - for now, it's using SQLite
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -89,10 +76,7 @@ DATABASES = {
     }
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
-
+# Password validation setup (keeping things secure)
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -108,25 +92,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-
+# Timezone settings for the app
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
+# Static files config - we'll serve these during development
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
+# Default primary key type, leaving it as BigAutoField for now
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

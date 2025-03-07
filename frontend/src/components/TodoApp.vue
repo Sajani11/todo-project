@@ -4,35 +4,37 @@
       <h1 class="title">Todo List</h1>
 
       <!-- Form to Add a New Todo -->
-      <form @submit.prevent="addTodo" class="todo-form">
+      <form @submit.prevent="addTask" class="todo-form">
         <div class="input-group">
           <input
             type="text"
             class="input"
-            v-model="newTodo.title"
+            v-model="todoStore.newTask.title"
             placeholder="Enter title..."
-            required />
+            required
+          />
           <input
             type="text"
             class="input"
-            v-model="newTodo.description"
+            v-model="todoStore.newTask.description"
             placeholder="Enter description..."
-            required />
+            required
+          />
         </div>
         <button type="submit" class="btn add-btn">Add Todo</button>
       </form>
 
       <!-- Todo List -->
       <ul class="todo-list">
-        <li v-for="todo in todos" :key="todo.id" class="todo-item">
+        <li v-for="task in todoStore.tasks" :key="task.id" class="todo-item">
           <div class="todo-text">
-            <strong>{{ todo.title }}</strong>
-            <p>{{ todo.description }}</p>
+            <strong>{{ task.title }}</strong>
+            <p>{{ task.description }}</p>
           </div>
           <div class="todo-buttons">
-            <button @click="deleteTodo(todo.id)" class="btn delete-btn">delete</button>
-            <button @click="toggleComplete(todo)" class="btn complete-btn">
-              {{ todo.completed ? "delete" : "complete" }}
+            <button @click="deleteTask(task.id)" class="btn delete-btn">Delete</button>
+            <button @click="toggleComplete(task)" class="btn complete-btn">
+              {{ task.completed ? "Completed" : "Complete" }}
             </button>
           </div>
         </li>
@@ -41,134 +43,145 @@
   </div>
 </template>
 
-<script>
-import { ref, onMounted } from "vue";
-import axios from "axios";
+<script setup>
+import { onMounted } from 'vue';
+import { useTodoStore } from '@/stores/todoStore';  // Import the Pinia store
 
-export default {
-  name: "TodoApp",
-  setup() {
-    const todos = ref([]);
-    const newTodo = ref({ title: "", description: "" });
+const todoStore = useTodoStore();  // Access the Pinia store
 
-    const fetchTodos = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/todos/");
-        todos.value = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    };
+// Fetch todos when the component mounts
+onMounted(() => {
+  todoStore.fetchTasks();
+});
 
-    const addTodo = async () => {
-      try {
-        const response = await axios.post("http://127.0.0.1:8000/todos/", newTodo.value);
-        todos.value.push(response.data);
-        newTodo.value.title = "";
-        newTodo.value.description = "";
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const deleteTodo = async (id) => {
-      try {
-        await axios.delete(`http://127.0.0.1:8000/todos/${id}/`);
-        todos.value = todos.value.filter((todo) => todo.id !== id);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const toggleComplete = async (todo) => {
-      try {
-        todo.completed = !todo.completed;
-        await axios.put(`http://127.0.0.1:8000/todos/${todo.id}/`, todo);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    onMounted(() => {
-      fetchTodos();
-    });
-
-    return { todos, newTodo, addTodo, deleteTodo, toggleComplete };
-  },
-};
+// Delegate actions to the Pinia store
+const addTask = todoStore.addTask;   // Use addTask method from the store
+const deleteTask = todoStore.removeTask;  // Use removeTask method from the store
+const toggleComplete = todoStore.toggleComplete;
 </script>
 
 <style scoped>
+/* App Container */
 .app-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #b6c2cf, #ddf1f7); /* Blue gradient background */
-  width: 100vw;
-  padding: 20px;
+  background-color:#f3ecec;
+  font-family: 'Arial', sans-serif;
 }
 
+/* Todo Container */
 .todo-container {
-  background: white;
+  background-color: #fff;
   padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
+  max-width: 600px;
+  text-align: center;
 }
 
+/* Title */
 .title {
-  color:#007bff;
   font-size: 2rem;
+  color: #333;
   margin-bottom: 20px;
 }
 
+/* Form Styling */
 .todo-form {
   display: flex;
   flex-direction: column;
+  gap: 15px;
 }
 
 .input-group {
   display: flex;
-  flex-direction: column;
+  gap: 10px;
 }
 
 .input {
-  margin-bottom: 10px;
+  width: 100%;
   padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
 }
 
+.input:focus {
+  border-color: #6c63ff;
+}
+
+/* Button Styling */
 .btn {
   padding: 10px;
+  font-size: 1rem;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .add-btn {
-  background: #007bff;
+  background-color: #6c63ff;
   color: white;
-  font-size: 1rem;
 }
 
+.add-btn:hover {
+  background-color: #90f582;
+}
+
+.delete-btn {
+  background-color:#c0392b;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color:#ce210e;
+}
+
+.complete-btn {
+  background-color: #0ca54c;
+  color: white;
+}
+
+.complete-btn:hover {
+  background-color: #27ae60;
+}
+
+/* Todo List Styling */
 .todo-list {
-  margin-top: 20px;
   list-style: none;
   padding: 0;
+  margin-top: 20px;
+  text-align: left;
 }
 
 .todo-item {
-  background: #f9f9f9;
-  padding: 10px;
-  border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 15px;
   margin-bottom: 10px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.todo-text {
+  flex-grow: 1;
+}
+
+.todo-text strong {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.todo-text p {
+  color: #777;
+  font-size: 1rem;
 }
 
 .todo-buttons {
@@ -176,13 +189,28 @@ export default {
   gap: 10px;
 }
 
-.delete-btn {
-  background: #ff4757;
-  color: white;
+.todo-buttons button {
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.complete-btn {
-  background: #1dd1a1;
-  color: white;
+/* Responsive Design */
+@media (max-width: 600px) {
+  .todo-container {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input {
+    margin-bottom: 10px;
+  }
 }
 </style>
