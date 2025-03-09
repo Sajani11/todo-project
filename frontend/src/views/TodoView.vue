@@ -1,13 +1,13 @@
-<!-- TodoView.vue -->
+
 <template>
     <div>
       <h1>My To-Do Application</h1>
-      <TodoApp />  <!-- This renders the TodoApp component inside TodoView -->
+      <TodoApp /> 
     </div>
   </template>
   
   <script setup>
-  import TodoApp from '../components/TodoApp.vue';  // Import TodoApp component
+  import TodoApp from '../components/TodoApp.vue';  
   </script>
   
   <style scoped>

@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TodoView from './views/TodoView.vue';  // Import TodoView.vue
+import TodoView from './views/TodoView.vue';  
 
 const routes = [
-  { path: '/', component: TodoView },  // Use TodoView as the main route for the app
+  { path: '/', component: TodoView },  
 ];
 
 const router = createRouter({

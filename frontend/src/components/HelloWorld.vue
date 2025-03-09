@@ -39,10 +39,9 @@ export default defineComponent({
     msg: String
   },
   setup(props) {
-    // Using Composition API to access props
+    
     const { msg } = toRefs(props);
     
-    // Return the variables to be used in the template
     return {
       msg,
     };
@@ -50,7 +49,6 @@ export default defineComponent({
 });
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h3 {
   margin: 40px 0 0;

@@ -45,23 +45,23 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { useTodoStore } from '@/stores/todoStore';  // Import the Pinia store
+import { useTodoStore } from '@/stores/todoStore';  
 
-const todoStore = useTodoStore();  // Access the Pinia store
+const todoStore = useTodoStore();  
 
-// Fetch todos when the component mounts
+
 onMounted(() => {
   todoStore.fetchTasks();
 });
 
-// Delegate actions to the Pinia store
-const addTask = todoStore.addTask;   // Use addTask method from the store
-const deleteTask = todoStore.removeTask;  // Use removeTask method from the store
+
+const addTask = todoStore.addTask;   
+const deleteTask = todoStore.removeTask;  
 const toggleComplete = todoStore.toggleComplete;
 </script>
 
 <style scoped>
-/* App Container */
+
 .app-container {
   display: flex;
   justify-content: center;
@@ -71,7 +71,7 @@ const toggleComplete = todoStore.toggleComplete;
   font-family: 'Arial', sans-serif;
 }
 
-/* Todo Container */
+
 .todo-container {
   background-color: #fff;
   padding: 30px;
@@ -82,14 +82,13 @@ const toggleComplete = todoStore.toggleComplete;
   text-align: center;
 }
 
-/* Title */
 .title {
   font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
 }
 
-/* Form Styling */
+
 .todo-form {
   display: flex;
   flex-direction: column;
@@ -114,7 +113,7 @@ const toggleComplete = todoStore.toggleComplete;
   border-color: #6c63ff;
 }
 
-/* Button Styling */
+
 .btn {
   padding: 10px;
   font-size: 1rem;
@@ -151,7 +150,7 @@ const toggleComplete = todoStore.toggleComplete;
   background-color: #27ae60;
 }
 
-/* Todo List Styling */
+
 .todo-list {
   list-style: none;
   padding: 0;
@@ -198,7 +197,6 @@ const toggleComplete = todoStore.toggleComplete;
   transition: background-color 0.3s;
 }
 
-/* Responsive Design */
 @media (max-width: 600px) {
   .todo-container {
     width: 100%;

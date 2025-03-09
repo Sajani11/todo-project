@@ -3,14 +3,13 @@ import { ref } from 'vue';
 import axios from 'axios';
 
 export const useTodoStore = defineStore('todoStore', () => {
-  // State
+ 
   const tasks = ref([]);
   const newTask = ref({
     title: '',
     description: ''
   });
 
-  // Fetch tasks from Django API
   const fetchTasks = async () => {
     try {
       const response = await axios.get('http://127.0.0.1:8000/api/tasks/');
@@ -20,7 +19,7 @@ export const useTodoStore = defineStore('todoStore', () => {
     }
   };
 
-  // Add a new task
+ 
   const addTask = async () => {
     if (!newTask.value.title.trim() || !newTask.value.description.trim()) return;
     try {
@@ -47,11 +46,11 @@ export const useTodoStore = defineStore('todoStore', () => {
     }
   };
 
-  // Toggle the completed status of a task
+
   const toggleComplete = async (task) => {
     try {
       task.completed = !task.completed;
-      // Optionally update this change in the backend
+     
       await axios.put(`http://127.0.0.1:8000/api/tasks/${task.id}/`, {
         ...task,
         completed: task.completed
